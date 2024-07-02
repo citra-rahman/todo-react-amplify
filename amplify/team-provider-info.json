@@ -17,6 +17,9 @@
       },
       "auth": {
         "todoreactamplify2be0f93e": {}
+      },
+      "api": {
+        "todoreactamplify": {}
       }
     }
   }
