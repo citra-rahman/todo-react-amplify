@@ -1,56 +1,82 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { Amplify } from "aws-amplify";
-import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import awsExports from "./aws-exports";
 import { createTodo } from "./graphql/mutations";
 import { listTodos } from "./graphql/queries";
 import { generateClient } from "aws-amplify/api";
+import {
+  Authenticator,
+  ThemeProvider,
+  Button,
+  Text,
+  Flex,
+} from "@aws-amplify/ui-react";
+import CheckIcon from "./components/CheckIconCircleBlack";
+import List from "./components/list";
+import "./App.css";
 
 Amplify.configure(awsExports);
 
-const client = generateClient();
+export default function App() {
+  const [todoList, setToDoList] = useState([]);
+  const [importantToDoList, setImportantTodoList] = useState([]);
 
-async function storeToDo() {
-  try {
-    await client.graphql({
-      query: createTodo,
-      variables: {
-        input: {
-          id: '2',
-          name: "Fix UI Bugs",
-          description: "Fix UI Bug Both on frontend and backend",
+  const theme = {
+    name: "pink-light-theme",
+    tokens: {
+      components: {
+        Text: {
+          color: { value: "#1f212d" },
         },
       },
-    });
-  } catch (err) {
-    console.error(err);
-  }
-}
+    },
+  };
 
-async function fetchToDo(){
-  try{
-    const result = await client.graphql({
-      query: listTodos
-    });
-    console.log(result);
-  } catch (err) {
-    console.error(err);
-  }
-}
+  useEffect(() => {
+    const client = generateClient();
+    client
+      .graphql({
+        query: listTodos,
+      })
+      .then((result) => {
+        const data = result.data.listTodos.items;
+        setToDoList(data.filter((x) => !x.isFavorites));
+        setImportantTodoList(data.filter((x) => x.isFavorites));
+      });
+  }, []);
 
-const App = () => {
   return (
-    <Authenticator>
-      {({ signOut, user }) => (
-        <main>
-          <h1>Welcome {user.username}</h1>
-          <button onClick={signOut}>Sign Out</button>
-          <button onClick={storeToDo}>New To Do</button>
-          <button onClick={fetchToDo}>Fetch To Do</button>
-        </main>
-      )}
-    </Authenticator>
+    <ThemeProvider theme={theme}>
+      <main>
+        <Flex
+          direction="row"
+          justifyContent="center"
+          style={{
+            padding: "5vh",
+            height: "20vh",
+          }}
+        >
+          <CheckIcon width={64} height={64} />
+          <br />
+          <Text fontSize={24} fontWeight={600}>
+            Todo App
+          </Text>
+        </Flex>
+        <Text fontSize={24} fontWeight={600}>
+          Important
+        </Text>
+        {importantToDoList.map((item) => (
+          <List key={item.id} text={item.name} isFavorites={item.isFavorites}/>
+        ))}
+        <br />
+        <Text fontSize={24} fontWeight={600}>
+          Tasks
+        </Text>
+        {todoList.map((item) => (
+          <List key={item.id} text={item.name} isFavorites={item.isFavorites}/>
+        ))}
+      </main>
+    </ThemeProvider>
   );
-};
-export default App;
+}
