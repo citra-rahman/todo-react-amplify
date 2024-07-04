@@ -1,25 +1,33 @@
 import { Flex, Text, Button, View } from "@aws-amplify/ui-react";
 import CheckIcon from "./CheckIconCircleBlack";
+import CheckIconCircleOutlined from "./CheckIconCircleOutlined";
 import StarsIconSolid from "./StarsIconSolid";
 import DotHorizontal from "./DotHorizontal";
 
-export default function List({ text, isFavorites }) {
+export default function ListToDo({ text, isFavorites, isCompleted }) {
+
   return (
     <Flex
       as="div"
-      ariaLabel="View example"
+      ariaLabel="List Todo"
       flexDirection="row"
       justifyContent="space-between"
-      backgroundColor="rgba(255,255,255,0.4)"
+      backgroundColor={isCompleted ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.4)"}
       borderRadius="6px"
-      height="7vh"
+      height="6vh"
       maxWidth="100%"
       margin="4px"
       padding="10px"
     >
       <Flex justifyContent="start" alignItems="center">
-        <CheckIcon width={32} height={32} />
-        <Text>{text}</Text>
+        {isCompleted ? (
+          <CheckIcon width={32} height={32} />
+        ) : (
+          <CheckIconCircleOutlined width={32} height={32} />
+        )}
+        <Text style={{ textDecoration: isCompleted ? "line-through" : "none" }}>
+          {text}
+        </Text>
       </Flex>
       <View justifyContent="end" alignItems="center">
         <Button size="small" variation="link">
