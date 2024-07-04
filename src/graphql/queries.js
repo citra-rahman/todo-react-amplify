@@ -7,6 +7,8 @@ export const getTodo = /* GraphQL */ `
       id
       name
       description
+      isCompleted
+      isFavorites
       createdAt
       updatedAt
       __typename
@@ -24,6 +26,8 @@ export const listTodos = /* GraphQL */ `
         id
         name
         description
+        isCompleted
+        isFavorites
         createdAt
         updatedAt
         __typename
