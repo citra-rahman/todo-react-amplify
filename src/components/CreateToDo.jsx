@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { generateClient } from "aws-amplify/api";
 import { Flex } from "@aws-amplify/ui-react";
 import { Button } from "@aws-amplify/ui-react";
@@ -6,7 +6,7 @@ import { TextField } from "@aws-amplify/ui-react";
 import { createTodo } from "../graphql/mutations";
 import { graphqlOperation } from "@aws-amplify/api-graphql";
 import { v4 as uuidv4 } from "uuid";
-import PlusIcon from "./PlusIcon";
+import PlusIcon from "./icons/PlusIcon";
 import "@aws-amplify/ui-react/styles.css";
 
 export default function CreateToDo() {
@@ -29,18 +29,14 @@ export default function CreateToDo() {
           },
         })
       );
-      window.location.reload()
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <Flex
-      as="form"
-      ariaLabel="Create Todo"
-      style={{ position: "absolute", bottom: "2vh", width: "50vw" }}
-    >
+    <Flex as="form" ariaLabel="Create Todo" style={{ paddingTop: "30vh" }}>
       <TextField
         label="Create To Do"
         placeholder="What do you need to do?"

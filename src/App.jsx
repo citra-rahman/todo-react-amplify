@@ -7,7 +7,7 @@ import { generateClient } from "aws-amplify/api";
 import { ThemeProvider } from "@aws-amplify/ui-react";
 import { Text } from "@aws-amplify/ui-react";
 import { Flex } from "@aws-amplify/ui-react";
-import CheckIcon from "./components/CheckIconCircleBlack";
+import CheckIcon from "./components/icons/CheckIconCircleBlack";
 import ListToDo from "./components/ListToDo";
 import CreateToDo from "./components/CreateToDo";
 import "./App.css";
@@ -45,11 +45,11 @@ export default function App() {
       })
       .then((result) => {
         const data = result.data.listTodos.items;
+        console.log('data', todoList, importantToDoList)
         setToDoList(data.filter((x) => !x.isFavorites));
         setImportantTodoList(data.filter((x) => x.isFavorites));
       });
-
-  }, []);
+  }, [todoList, importantToDoList]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -58,7 +58,7 @@ export default function App() {
           direction="row"
           justifyContent="center"
           style={{
-            padding: "5vh",
+            padding: "5vh 0",
             height: "20vh",
           }}
         >
@@ -74,7 +74,9 @@ export default function App() {
         {importantToDoList.map((item) => (
           <ListToDo
             key={item.id}
-            text={item.name}
+            id={item.id}
+            name={item.name}
+            description={item.description}
             isFavorites={item.isFavorites}
             isCompleted={item.isCompleted}
           />
@@ -86,9 +88,11 @@ export default function App() {
         {todoList.map((item) => (
           <ListToDo
             key={item.id}
-            text={item.name}
-            isFavorites={item.isFavorites}
+            id={item.id}
+            name={item.name}
+            description={item.description}
             isCompleted={item.isCompleted}
+            isFavorites={item.isFavorites}
           />
         ))}
         <CreateToDo />
