@@ -45,7 +45,6 @@ export default function App() {
       })
       .then((result) => {
         const data = result.data.listTodos.items;
-        console.log('data', todoList, importantToDoList)
         setToDoList(data.filter((x) => !x.isFavorites));
         setImportantTodoList(data.filter((x) => x.isFavorites));
       });
