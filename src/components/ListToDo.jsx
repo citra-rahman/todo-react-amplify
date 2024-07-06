@@ -1,11 +1,14 @@
 import { Flex, Text, Button, View, useTheme } from "@aws-amplify/ui-react";
+import { Menu, MenuItem, MenuButton } from "@aws-amplify/ui-react";
 import { generateClient } from "aws-amplify/api";
 import { updateTodo } from "../graphql/mutations";
 import { graphqlOperation } from "@aws-amplify/api-graphql";
 import CheckIcon from "./icons/CheckIconCircleBlack";
 import CheckIconCircleOutlined from "./icons/CheckIconCircleOutlined";
 import StarsIconSolid from "./icons/StarsIconSolid";
-import DotHorizontal from "./icons/DotHorizontalIcon";
+import DotHorizontalIcon from "./icons/DotHorizontalIcon";
+import EditIcon from "./icons/EditIcon";
+import TrashBinIcon from "./icons/TrashBinIcon";
 
 export default function ListToDo({
   id,
@@ -64,7 +67,11 @@ export default function ListToDo({
           {name}
         </Text>
       </Flex>
-      <Flex justifyContent="end" alignItems="center" minWidth='calc(1rem + 20vw)'>
+      <Flex
+        justifyContent="end"
+        alignItems="center"
+        minWidth="calc(1rem + 20vw)"
+      >
         <View>
           <Button size="small" variation="link" onClick={favoritesOnClick}>
             <StarsIconSolid
@@ -74,9 +81,35 @@ export default function ListToDo({
               stroke={isFavorites ? "none" : "grey"}
             />
           </Button>
-          <Button size="small" variation="link">
-            <DotHorizontal width={32} height={32} />
-          </Button>
+          <Menu
+            trigger={
+              <MenuButton size="small" variation="link">
+                <DotHorizontalIcon width={32} height={32} />
+              </MenuButton>
+            }
+          >
+            <MenuItem className="menu">
+              <EditIcon />
+              Edit Task
+            </MenuItem>
+            <MenuItem className="menu">
+              <CheckIconCircleOutlined />
+              Mark as completed
+            </MenuItem>
+            <MenuItem className="menu">
+              <StarsIconSolid
+                width={24}
+                height={24}
+                color={"none"}
+                stroke={"grey"}
+              />
+              Mark as important
+            </MenuItem>
+            <MenuItem className="menu">
+              <TrashBinIcon width={24} height={24} color={"red"} />
+              Delete task
+            </MenuItem>
+          </Menu>
         </View>
       </Flex>
     </Flex>
