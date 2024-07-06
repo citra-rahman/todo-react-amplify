@@ -45,6 +45,7 @@ export default function CreateToDo() {
         borderRadius="6px"
         width="100%"
         margin="4px"
+        className="custom-textfield-class"
         onChange={handleChange}
         outerEndComponent={
           <Button

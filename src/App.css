@@ -11,6 +11,11 @@ body {
   }
 }
 
+.custom-textfield-class .amplify-input {
+  border-color: transparent;
+  height: 6vh;
+}
+
 @media screen and (max-width: 1800px) {
   main {
     padding: 0 15vw;
