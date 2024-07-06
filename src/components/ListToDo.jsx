@@ -18,8 +18,9 @@ export default function ListToDo({
   isFavorites,
 }) {
   const { tokens } = useTheme();
-  const favoritesOnClick = () => {
-    const client = generateClient();
+  const client = generateClient();
+
+  const markAsImportantOnClick = () => {
     try {
       client.graphql(
         graphqlOperation(updateTodo, {
@@ -29,6 +30,25 @@ export default function ListToDo({
             description: description,
             isCompleted: isCompleted,
             isFavorites: !isFavorites,
+          },
+        })
+      );
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const markAsCompletedOnClick = () => {
+    try {
+      client.graphql(
+        graphqlOperation(updateTodo, {
+          input: {
+            id: id,
+            name: name,
+            description: description,
+            isCompleted: true,
+            isFavorites: isFavorites,
           },
         })
       );
@@ -73,7 +93,11 @@ export default function ListToDo({
         minWidth="calc(1rem + 20vw)"
       >
         <View>
-          <Button size="small" variation="link" onClick={favoritesOnClick}>
+          <Button
+            size="small"
+            variation="link"
+            onClick={markAsImportantOnClick}
+          >
             <StarsIconSolid
               width={24}
               height={24}
@@ -87,12 +111,13 @@ export default function ListToDo({
                 <DotHorizontalIcon width={32} height={32} />
               </MenuButton>
             }
+            style={{ borderColor: "transparent" }}
           >
             <MenuItem className="menu">
               <EditIcon />
               Edit Task
             </MenuItem>
-            <MenuItem className="menu">
+            <MenuItem className="menu" onClick={markAsCompletedOnClick}>
               <CheckIconCircleOutlined />
               Mark as completed
             </MenuItem>
