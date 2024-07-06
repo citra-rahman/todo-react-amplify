@@ -1,7 +1,7 @@
 import { Flex, Text, Button, View, useTheme } from "@aws-amplify/ui-react";
 import { Menu, MenuItem, MenuButton } from "@aws-amplify/ui-react";
 import { generateClient } from "aws-amplify/api";
-import { updateTodo } from "../graphql/mutations";
+import { updateTodo, deleteTodo } from "../graphql/mutations";
 import { graphqlOperation } from "@aws-amplify/api-graphql";
 import CheckIcon from "./icons/CheckIconCircleBlack";
 import CheckIconCircleOutlined from "./icons/CheckIconCircleOutlined";
@@ -58,6 +58,20 @@ export default function ListToDo({
     }
   };
 
+  const deleteTaskOnClick = () => {
+    try {
+      client.graphql(
+        graphqlOperation(deleteTodo, {
+          input: {
+            id: id,
+          },
+        })
+      );
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  }
   return (
     <Flex
       as="div"
@@ -121,7 +135,7 @@ export default function ListToDo({
               <CheckIconCircleOutlined />
               Mark as completed
             </MenuItem>
-            <MenuItem className="menu">
+            <MenuItem className="menu" onClick={markAsImportantOnClick}>
               <StarsIconSolid
                 width={24}
                 height={24}
@@ -130,7 +144,7 @@ export default function ListToDo({
               />
               Mark as important
             </MenuItem>
-            <MenuItem className="menu">
+            <MenuItem className="menu" onClick={deleteTaskOnClick}>
               <TrashBinIcon width={24} height={24} color={"red"} />
               Delete task
             </MenuItem>
