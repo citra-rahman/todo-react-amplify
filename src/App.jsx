@@ -10,12 +10,14 @@ import { Flex } from "@aws-amplify/ui-react";
 import CheckIcon from "./components/icons/CheckIconCircleBlack";
 import ListToDo from "./components/ListToDo";
 import CreateToDo from "./components/CreateToDo";
+import EditToDo from "./components/EditToDo";
 import "./App.css";
 
 Amplify.configure(awsExports);
 
 export default function App() {
   const [todoList, setToDoList] = useState([]);
+  const [editToDo, setEditToDo] = useState("-1");
   const [importantToDoList, setImportantTodoList] = useState([]);
 
   const theme = {
@@ -50,6 +52,9 @@ export default function App() {
       });
   }, [todoList, importantToDoList]);
 
+  const handleEditOnClick = (data) => {
+    setEditToDo(data);
+  };
   return (
     <ThemeProvider theme={theme}>
       <main>
@@ -70,30 +75,56 @@ export default function App() {
         <Text fontSize={24} fontWeight={600}>
           Important
         </Text>
-        {importantToDoList.map((item) => (
-          <ListToDo
-            key={item.id}
-            id={item.id}
-            name={item.name}
-            description={item.description}
-            isFavorites={item.isFavorites}
-            isCompleted={item.isCompleted}
-          />
-        ))}
+        {importantToDoList.map((item) => {
+          return editToDo === item.id ? (
+            <EditToDo
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              description={item.description}
+              isFavorites={item.isFavorites}
+              isCompleted={item.isCompleted}
+              editOnClick={handleEditOnClick}
+            />
+          ) : (
+            <ListToDo
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              description={item.description}
+              isFavorites={item.isFavorites}
+              isCompleted={item.isCompleted}
+              editOnClick={handleEditOnClick}
+            />
+          );
+        })}
         <br />
         <Text fontSize={24} fontWeight={600}>
           Tasks
         </Text>
-        {todoList.map((item) => (
-          <ListToDo
-            key={item.id}
-            id={item.id}
-            name={item.name}
-            description={item.description}
-            isCompleted={item.isCompleted}
-            isFavorites={item.isFavorites}
-          />
-        ))}
+        {todoList.map((item) => {
+          return editToDo === item.id ? (
+            <EditToDo
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              description={item.description}
+              isFavorites={item.isFavorites}
+              isCompleted={item.isCompleted}
+              editOnClick={handleEditOnClick}
+            />
+          ) : (
+            <ListToDo
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              description={item.description}
+              isFavorites={item.isFavorites}
+              isCompleted={item.isCompleted}
+              editOnClick={handleEditOnClick}
+            />
+          );
+        })}
         <CreateToDo />
       </main>
     </ThemeProvider>

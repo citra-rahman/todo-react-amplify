@@ -16,9 +16,14 @@ export default function ListToDo({
   description,
   isCompleted,
   isFavorites,
+  editOnClick
 }) {
   const { tokens } = useTheme();
   const client = generateClient();
+
+  const handleEditOnClick = () => {
+    editOnClick(id);
+  }
 
   const markAsImportantOnClick = () => {
     try {
@@ -72,6 +77,7 @@ export default function ListToDo({
       console.log(err);
     }
   };
+
   return (
     <Flex
       as="div"
@@ -127,7 +133,7 @@ export default function ListToDo({
             }
             style={{ borderColor: "transparent" }}
           >
-            <MenuItem className="menu">
+            <MenuItem className="menu" onClick={handleEditOnClick}>
               <EditIcon />
               <span>Edit Task</span>
             </MenuItem>
