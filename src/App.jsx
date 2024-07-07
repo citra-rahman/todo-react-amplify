@@ -41,6 +41,15 @@ export default function App() {
 
   useEffect(() => {
     const client = generateClient();
+    client
+      .graphql({
+        query: listTodos,
+      })
+      .then((result) => {
+        const data = result.data.listTodos.items;
+        setToDoList(data.filter((x) => !x.isFavorites));
+        setImportantTodoList(data.filter((x) => x.isFavorites));
+      });
   }, [todoList, importantToDoList]);
 
   const handleEditOnClick = (data) => {
