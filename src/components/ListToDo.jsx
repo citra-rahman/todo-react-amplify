@@ -71,7 +71,7 @@ export default function ListToDo({
     } catch (err) {
       console.log(err);
     }
-  }
+  };
   return (
     <Flex
       as="div"
@@ -129,11 +129,11 @@ export default function ListToDo({
           >
             <MenuItem className="menu">
               <EditIcon />
-              Edit Task
+              <span>Edit Task</span>
             </MenuItem>
             <MenuItem className="menu" onClick={markAsCompletedOnClick}>
               <CheckIconCircleOutlined />
-              Mark as completed
+              <span>Mark as completed</span>
             </MenuItem>
             <MenuItem className="menu" onClick={markAsImportantOnClick}>
               <StarsIconSolid
@@ -142,11 +142,11 @@ export default function ListToDo({
                 color={"none"}
                 stroke={"grey"}
               />
-              Mark as important
+              <span>Mark as important</span>
             </MenuItem>
             <MenuItem className="menu" onClick={deleteTaskOnClick}>
               <TrashBinIcon width={24} height={24} color={"red"} />
-              Delete task
+              <span>Delete task</span>
             </MenuItem>
           </Menu>
         </View>

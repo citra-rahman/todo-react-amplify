@@ -9,12 +9,16 @@ body {
   &:hover {
     background-color: var(--amplify-colors-black);
   }
+  span{
+    margin-left: 12px;
+  }
 }
 
 .custom-textfield-class .amplify-input {
   border-color: transparent;
   height: 6vh;
 }
+
 
 @media screen and (max-width: 1800px) {
   main {
